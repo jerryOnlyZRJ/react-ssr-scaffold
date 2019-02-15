@@ -21,5 +21,6 @@ module.exports = {
             verbose: true,
             dry: false
         })
-    ]
+    ],
+    watch: true
 }

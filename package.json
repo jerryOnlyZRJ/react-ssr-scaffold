@@ -5,10 +5,12 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
+    "start:dev": "supervisor dist/server/app.js",
     "build:client-dev": "webpack --mode development",
     "build:client-prod": "webpack --mode production",
-    "build:server": "webpack --mode development --env server",
-    "ssr:dev": "npm-run-all --parallel build:client-dev build:server"
+    "build:server-dev": "webpack --mode development --env server --watch",
+    "build:server-prod": "webpack --mode development --env server",
+    "ssr:dev": "npm-run-all --parallel build:client-dev build:server-dev"
   },
   "keywords": [],
   "author": "",
@@ -19,7 +21,9 @@
     "koa-router": "^7.4.0",
     "koa-static": "^5.0.0",
     "react": "^16.8.1",
-    "react-dom": "^16.8.2"
+    "react-dom": "^16.8.2",
+    "react-loadable": "^5.5.0",
+    "react-router-dom": "^4.3.1"
   },
   "devDependencies": {
     "@babel/core": "^7.2.2",

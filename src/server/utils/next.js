@@ -1,9 +1,15 @@
 import fs from 'fs'
 import path from 'path'
+// Server render
 import React from 'react'
 import ReactDOMServer from 'react-dom/server';
+// server router
 import { StaticRouter } from 'react-router-dom'
+import Layout from '../../container/Layout/Layout'
 import IndexRoute from '../../routers/IndexRoute/IndexRoute'
+// redux
+import { Provider } from 'react-redux';
+import getStore from '../../redux/store'
 
 class Next {
     loadHtmlTmp() {
@@ -20,9 +26,13 @@ class Next {
     async render(ctx) {
         const reactSSR = ReactDOMServer.renderToString((
             // 通过location属性向StaticRouter传入真实路由，匹配路由组件
-            <StaticRouter context={{}} location={ctx.path}>
-              <IndexRoute />
-            </StaticRouter>
+            <Provider store={getStore()}>
+                <StaticRouter context={{}} location={ctx.path}>
+                    <Layout>
+                        <IndexRoute />
+                    </Layout>
+                </StaticRouter>
+            </Provider>
           ))
           const htmlTemplate = await this.loadHtmlTmp()
           return htmlTemplate.replace('<!--react-ssr-outlet-->', reactSSR)

@@ -17,13 +17,19 @@
   "license": "ISC",
   "dependencies": {
     "babel-polyfill": "^6.26.0",
+    "connected-react-router": "^6.3.1",
+    "keymirror": "^0.1.1",
     "koa": "^2.7.0",
     "koa-router": "^7.4.0",
     "koa-static": "^5.0.0",
     "react": "^16.8.1",
     "react-dom": "^16.8.2",
     "react-loadable": "^5.5.0",
-    "react-router-dom": "^4.3.1"
+    "react-redux": "^6.0.0",
+    "react-router-dom": "^4.3.1",
+    "redux": "^4.0.1",
+    "redux-logger": "^3.0.6",
+    "redux-thunk": "^2.3.0"
   },
   "devDependencies": {
     "@babel/core": "^7.2.2",

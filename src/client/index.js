@@ -2,15 +2,16 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import 'babel-polyfill';
 import { BrowserRouter } from 'react-router-dom'
-import Header from '../components/Header/Header'
+import Layout from '../container/Layout/Layout'
 import IndexRoute from '../routers/IndexRoute/IndexRoute'
 
 class App extends React.Component {
     render() {
         return (
             <BrowserRouter>
-                <Header /> 
-                <IndexRoute />
+                <Layout>
+                    <IndexRoute />
+                </Layout>
             </BrowserRouter>
         )
     }

@@ -5,11 +5,11 @@ import React from 'react'
 import ReactDOMServer from 'react-dom/server';
 // server router
 import { StaticRouter } from 'react-router-dom'
-import Layout from '../../container/Layout/Layout'
-import IndexRoute from '../../routers/IndexRoute/IndexRoute'
+import Layout from '@/container/Layout/Layout'
+import IndexRoute from '@/routers/IndexRoute/IndexRoute'
 // redux
 import { Provider } from 'react-redux';
-import getStore from '../../redux/store'
+import getStore from '@/redux/store'
 
 class Next {
     loadHtmlTmp() {

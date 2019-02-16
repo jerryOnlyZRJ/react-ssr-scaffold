@@ -1,3 +1,4 @@
+const {resolve} = require('path')
 // merge webpack config
 const webpackMerge = require('webpack-merge')
 const argv = require('yargs-parser')(process.argv.slice(2));
@@ -30,7 +31,10 @@ let localConfig = {
         ]
     },
     resolve: {
-        extensions: [".js", ".jsx"]
+        extensions: [".js", ".css", ".jsx"],
+        alias: {
+            '@': resolve(__dirname, 'src/client')
+        }
     },
     externals: {
         // 前面是我们import的依赖名，后面是我们的变量名

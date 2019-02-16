@@ -1,6 +1,6 @@
 import React from "react";
 import { connect } from 'react-redux';
-import ActionGetUserName from '../../redux/actions/get_user_name'
+import ActionGetUserName from '@/redux/actions/get_user_name'
 
 const mapState2Props = state => ({
   username: state.getUserName.username

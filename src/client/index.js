@@ -4,11 +4,11 @@ import ReactDOM from 'react-dom';
 import 'babel-polyfill';
 // react-router
 import { BrowserRouter } from 'react-router-dom'
-import Layout from '../container/Layout/Layout'
-import IndexRoute from '../routers/IndexRoute/IndexRoute'
+import Layout from '@/container/Layout/Layout'
+import IndexRoute from '@/routers/IndexRoute/IndexRoute'
 // redux
 import { Provider } from 'react-redux';
-import getStore from '../redux/store'
+import getStore from '@/redux/store'
 
 class App extends React.Component {
     render() {

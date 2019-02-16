@@ -1,4 +1,4 @@
-import axios from 'axios'
+import request from '@/utils/request'
 import {
     ActionTypes
 } from '../constants'
@@ -12,8 +12,7 @@ const updateUserName = (username) => ({
 
 export default {
     getUserName: () => dispatch => {
-        const url = typeof window !== 'undefined' ? '/api/user' : 'http://localhost:3000/api/user'
-        return axios.get(url).then(res => {
+        return request.get('/api/user').then(res => {
             dispatch(updateUserName(res.data.username))
         })
     }

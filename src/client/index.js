@@ -3,7 +3,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import 'babel-polyfill';
 // react-router
-import { BrowserRouter } from 'react-router-dom'
+import { BrowserRouter, Route } from 'react-router-dom'
 import Layout from '@/container/Layout/Layout'
 import IndexRoute from '@/routers/IndexRoute/IndexRoute'
 // redux
@@ -16,7 +16,11 @@ class App extends React.Component {
             <Provider store={getStore()}>
                 <BrowserRouter>
                     <Layout>
-                        <IndexRoute />
+                        <div>
+                        {IndexRoute.map(route => (
+                            <Route {...route} />
+                        ))}
+                        </div>
                     </Layout>
                 </BrowserRouter>
             </Provider>

@@ -12,7 +12,7 @@ const updateUserName = (username) => ({
 
 export default {
     getUserName: () => dispatch => {
-        axios.get('/api/user').then(res => {
+        return axios.get('http://localhost:3000/api/user').then(res => {
             dispatch(updateUserName(res.data.username))
         })
     }

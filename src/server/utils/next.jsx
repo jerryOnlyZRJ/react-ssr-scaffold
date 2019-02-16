@@ -40,7 +40,7 @@ class Next {
     for (let item of matchRoutes(IndexRoute, ctx.path)) {
       // item: {route: [Route], match: [{path, url, params}]}
       // 执行所有异步操作并初始化store
-      await item.route.loadData({ store, router: item.route });
+      item.route.loadData && await item.route.loadData({ store, router: item.route })
     }
     return store;
   }

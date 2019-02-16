@@ -3,7 +3,7 @@ import {
 } from '../constants'
 
 const defaultState = {
-    username: 'Ranjay'
+    username: ''
 }
 
 export default (state = defaultState, action) => {

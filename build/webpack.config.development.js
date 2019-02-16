@@ -15,7 +15,7 @@ module.exports = {
     plugins: [
         new CopyWebpackPlugin([{
             from: 'favicon.ico',
-            to: './'
+            to: './images'
         }]),
         new HtmlWebpackPlugin({
             filename: "../index.html",

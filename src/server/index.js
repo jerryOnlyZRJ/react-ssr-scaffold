@@ -10,6 +10,12 @@ const router = new Router();
 
 app.use(assets(path.resolve(process.cwd(), 'dist/client')))
 
+router.get('/api/user', async (ctx) => {
+  ctx.body = {
+    username: "Jerry"
+  }
+});
+
 router.get('*', async (ctx) => {
   ctx.body = await next.render(ctx)
 });

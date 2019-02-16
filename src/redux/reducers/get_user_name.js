@@ -2,9 +2,11 @@ import {
     ActionTypes
 } from '../constants'
 
-export default (state = {
+const defaultState = {
     username: 'Ranjay'
-}, action) => {
+}
+
+export default (state = defaultState, action) => {
     switch (action.type) {
         case ActionTypes.GET_USER_NAME:
             {

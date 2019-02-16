@@ -13,7 +13,8 @@ import getStore from '@/redux/store'
 class App extends React.Component {
     render() {
         return (
-            <Provider store={getStore()}>
+            // 数据注水
+            <Provider store={getStore(window.__INITIAL_STATE__)}>
                 <BrowserRouter>
                     <Layout>
                         <div>

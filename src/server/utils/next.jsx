@@ -51,6 +51,8 @@ class Next {
    */
   async render(ctx) {
     const store = await this.executeAsyncData(ctx)
+    // 数据注水&脱水，在window上挂载经过asyncData之后的初始化state
+    const injectScript = `<script>window.__INITIAL_STATE__=${JSON.stringify(store.getState())}</script>`
     const reactSSR = ReactDOMServer.renderToString(
       // 通过location属性向StaticRouter传入真实路由，匹配路由组件
       <Provider store={store}>
@@ -66,7 +68,7 @@ class Next {
       </Provider>
     );
     const htmlTemplate = await this.loadHtmlTmp();
-    return htmlTemplate.replace("<!--react-ssr-outlet-->", reactSSR);
+    return htmlTemplate.replace("<!--react-ssr-outlet-->", reactSSR).replace('<!-- injectScript -->', injectScript)
   }
 }
 

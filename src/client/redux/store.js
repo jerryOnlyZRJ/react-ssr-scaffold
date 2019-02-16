@@ -13,13 +13,14 @@ import {
 import reducers from './reducers';
 
 // 由于node层使用单例模式会产生多个请求共用一个store的可能，因此要改装成一个function
-function getStore(){
+function getStore(defaultState){
     return createStore(
         compose(
             combineReducers
         )({
             ...reducers
         }),
+        defaultState,
         applyMiddleware(
             trunkMiddleware,
             logger

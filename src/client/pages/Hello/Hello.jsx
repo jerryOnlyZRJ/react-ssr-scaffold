@@ -11,15 +11,19 @@ const mapDispatcher2Props = dispatch => ({
 });
 
 @connect(
-  mapState2Props,  
+  mapState2Props,
   mapDispatcher2Props
 )
 class Hello extends React.Component {
   static asyncData({ store }) {
-    return store.dispatch(ActionGetUserName.getUserName())
+    return store.dispatch(ActionGetUserName.getUserName());
   }
   componentDidMount() {
-    this.props.getUserName();
+    // SSR都应该进行优化
+    // 防止经过服务端渲染之后再次拉取数据
+    if (!this.props.username) {
+      this.props.getUserName();
+    }
   }
   render() {
     return <div>Hello {this.props.username}!</div>;

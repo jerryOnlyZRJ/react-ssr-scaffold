@@ -7,7 +7,7 @@ let _mergeConfig = null
 
 if (process.env.NODE_ENV === "development") {
     _mergeConfig = {
-        port: 8000,
+        port: 3000,
         reduxMiddlewares: [logger]
     }
 } else {

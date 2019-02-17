@@ -5,8 +5,7 @@ import React from "react";
 import ReactDOMServer from "react-dom/server";
 // server router
 import { StaticRouter } from "react-router-dom";
-import { renderRoutes } from "react-router-config";
-import { matchRoutes } from "react-router-config";
+import { renderRoutes, matchRoutes } from "react-router-config";
 // redux
 import { Provider } from "react-redux";
 import getStore from "@/redux/store";

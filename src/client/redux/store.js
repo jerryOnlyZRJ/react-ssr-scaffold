@@ -1,3 +1,7 @@
+/**
+ * @description 全站数据使用Redux
+ */
+
 import {
     applyMiddleware,
     combineReducers,

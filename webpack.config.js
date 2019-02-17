@@ -31,7 +31,7 @@ let localConfig = {
         ]
     },
     resolve: {
-        extensions: [".js", ".css", ".jsx"],
+        extensions: [".js", ".jsx", ".css"],
         alias: {
             '@': resolve(__dirname, 'src/client')
         }

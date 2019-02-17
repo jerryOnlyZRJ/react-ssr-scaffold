@@ -2,10 +2,18 @@ import React from "react";
 import { connect } from "react-redux";
 import ActionGetUserName from "@/redux/actions/get_user_name";
 
+/**
+ * @description  将Redux的state映射到组件的props上
+ * @param {Object} state 
+ */
 const mapState2Props = state => ({
   username: state.getUserName.username
 });
 
+/**
+ * @description  对dispatcher进行封装并挂载在props上
+ * @param {Function} dispatch 
+ */
 const mapDispatcher2Props = dispatch => ({
   getUserName: () => dispatch(ActionGetUserName.getUserName())
 });

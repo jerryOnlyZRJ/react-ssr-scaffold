@@ -1,9 +1,11 @@
-const {resolve} = require('path')
+const {
+    resolve
+} = require('path')
 // merge webpack config
 const webpackMerge = require('webpack-merge')
 const argv = require('yargs-parser')(process.argv.slice(2));
 const _mode = argv.mode || "development";
-let _mergeConfig = null
+let _mergeConfig
 if (argv.env == "server") {
     _mergeConfig = require('./build/webpack.server.js')
 } else {
@@ -18,14 +20,12 @@ let localConfig = {
                 loader: "babel-loader"
             },
             {
-                test: /\.less$/,
-                loader: ["style-loader", "css-loader"]
-            },
-            {
                 test: /\.(png|jpg|gif)$/,
                 use: [{
                     loader: "file-loader",
-                    options: {}
+                    options: {
+                        name: 'images/[name]-[hash:5].[ext]'
+                    }
                 }]
             }
         ]

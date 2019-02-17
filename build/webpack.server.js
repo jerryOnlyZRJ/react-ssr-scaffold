@@ -9,6 +9,12 @@ module.exports = {
         path: path.join(__dirname, "../dist/server"),
         filename: "app.js",
     },
+    module: {
+        rules: [{
+            test: /\.css$/,
+            use: 'null-loader'
+        }]
+    },
     plugins: [
         new CleanWebpackPlugin(["dist/server/*"], {
             root: path.resolve(__dirname, '..'),

@@ -3,5 +3,9 @@
 }
 
 body {
-    background-color: var(--mainColor);
+    background-color: #f6f8fa;
+}
+
+.main-color {
+    color: var(--mainColor);
 }

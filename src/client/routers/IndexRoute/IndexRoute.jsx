@@ -1,3 +1,4 @@
+import Main from '@/Main'
 import Hello from "@/pages/Hello/Hello";
 import Login from "@/pages/Login/Login";
 
@@ -6,16 +7,20 @@ import Loading from "@/components/Loading/Loading";
 
 export default [
   {
-    key: "index",
-    path: "/",
-    exact: true,
-    component: Hello,
-    loadData: Hello.asyncData
-  },
-  {
-    key: "login",
-    path: "/login",
-    exact: true,
-    component: Login
+    path: '/',
+    component: Main,
+    routes: [{
+      key: "index",
+      path: "/",
+      exact: true,
+      component: Hello,
+      loadData: Hello.asyncData
+    },
+    {
+      key: "login",
+      path: "/login",
+      exact: true,
+      component: Login
+    }]
   }
 ];

@@ -4,19 +4,18 @@ import path from "path";
 import React from "react";
 import ReactDOMServer from "react-dom/server";
 // server router
-import { StaticRouter, Route } from "react-router-dom";
-import { renderRoutes } from 'react-router-config'
+import { StaticRouter } from "react-router-dom";
+import { renderRoutes } from "react-router-config";
 import { matchRoutes } from "react-router-config";
-import Layout from "@/container/Layout/Layout";
 // redux
 import { Provider } from "react-redux";
 import getStore from "@/redux/store";
 
 class Next {
-    /**
-     * @description 拉取HTML模版
-     * @returns {Promise<HTMLString>} HTML模版字符串
-     */
+  /**
+   * @description 拉取HTML模版
+   * @returns {Promise<HTMLString>} HTML模版字符串
+   */
   loadHtmlTmp() {
     const tmpPath = path.resolve(process.cwd(), "dist/index.html");
     return new Promise((resolve, reject) => {
@@ -41,7 +40,8 @@ class Next {
     for (let item of matchRoutes(routes, ctx.path)) {
       // item: {route: [Route], match: [{path, url, params}]}
       // 执行所有异步操作并初始化store
-      item.route.loadData && await item.route.loadData({ store, router: item.route })
+      item.route.loadData &&
+        (await item.route.loadData({ store, router: item.route }));
     }
     return store;
   }
@@ -52,25 +52,23 @@ class Next {
    * @param {Object} ctx  koa context
    */
   async render(ctx, routes) {
-    const store = await this.executeAsyncData(ctx, routes)
+    const store = await this.executeAsyncData(ctx, routes);
     // 数据注水&脱水，在window上挂载经过asyncData之后的初始化state
-    const injectScript = `<script>window.__INITIAL_STATE__=${JSON.stringify(store.getState())}</script>`
+    const injectScript = `<script>window.__INITIAL_STATE__=${JSON.stringify(
+      store.getState()
+    )}</script>`;
     const reactSSR = ReactDOMServer.renderToString(
       // 通过location属性向StaticRouter传入真实路由，匹配路由组件
       <Provider store={store}>
         <StaticRouter context={{}} location={ctx.path}>
-          <Layout>
-            <div>
-              {routes.map(route => (
-                <Route {...route} />
-              ))}
-            </div>
-          </Layout>
+          <div>{renderRoutes(routes)}</div>
         </StaticRouter>
       </Provider>
     );
     const htmlTemplate = await this.loadHtmlTmp();
-    return htmlTemplate.replace("<!--react-ssr-outlet-->", reactSSR).replace('<!-- injectScript -->', injectScript)
+    return htmlTemplate
+      .replace("<!--react-ssr-outlet-->", reactSSR)
+      .replace("<!-- injectScript -->", injectScript);
   }
 }
 

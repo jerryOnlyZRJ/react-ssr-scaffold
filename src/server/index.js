@@ -2,6 +2,7 @@ import path from 'path'
 import 'babel-polyfill'
 import Koa from 'koa'
 import assets from "koa-static" 
+import CONFIG from "../config"
 import router from './routers'
 
 const app = new Koa();
@@ -12,4 +13,4 @@ app
   .use(router.routes())
   .use(router.allowedMethods());
 
-app.listen(3000, () => console.log('website is listening at port 3000...'));
+app.listen(CONFIG.port, () => console.log(`website is listening at port ${CONFIG.port}...`));

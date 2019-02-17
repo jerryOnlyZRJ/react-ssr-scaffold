@@ -9,9 +9,9 @@
     "build:client-dev": "webpack --mode development",
     "build:client-prod": "webpack --mode production",
     "build:server-dev": "webpack --mode development --env server --watch",
-    "build:server-prod": "webpack --mode development --env server",
-    "ssr:dev": "cross-env NODE_ENV=development npm-run-all --parallel build:client-dev build:server-dev",
-    "ssr:prod": "cross-env NODE_ENV=production npm-run-all --parallel build:client-prod build:server-prod"
+    "build:server-prod": "webpack --mode production --env server",
+    "ssr:dev": "npm-run-all --parallel build:client-dev build:server-dev",
+    "ssr:prod": "npm-run-all --parallel build:client-prod build:server-prod"
   },
   "keywords": [],
   "author": "",

@@ -5,6 +5,7 @@ import {
 let localConfig = {}
 let _mergeConfig = null
 
+// process.env.NODE_ENV在webpack编译时与webpack的mode一致
 if (process.env.NODE_ENV === "development") {
     _mergeConfig = {
         port: 3000,

@@ -5,9 +5,9 @@ import React from "react";
 import ReactDOMServer from "react-dom/server";
 // server router
 import { StaticRouter, Route } from "react-router-dom";
+import { renderRoutes } from 'react-router-config'
 import { matchRoutes } from "react-router-config";
 import Layout from "@/container/Layout/Layout";
-import IndexRoute from "@/routers/IndexRoute/IndexRoute";
 // redux
 import { Provider } from "react-redux";
 import getStore from "@/redux/store";
@@ -31,13 +31,14 @@ class Next {
   /**
    * @description 后端执行路由组件异步操作
    * @param {Object} ctx  Koa context
+   * @param {Array<Routes>} routes 前端导出路由
    * @returns {Promise<store>} Redux Store
    */
-  async executeAsyncData(ctx) {
+  async executeAsyncData(ctx, routes) {
     // 服务端执行异步数据拉取
     const store = getStore();
     // 通过真实路由匹配路由组件
-    for (let item of matchRoutes(IndexRoute, ctx.path)) {
+    for (let item of matchRoutes(routes, ctx.path)) {
       // item: {route: [Route], match: [{path, url, params}]}
       // 执行所有异步操作并初始化store
       item.route.loadData && await item.route.loadData({ store, router: item.route })
@@ -47,10 +48,11 @@ class Next {
 
   /**
    * @description 根据路由执行渲染
+   * @param {Array<Routes>} routes 前端导出路由
    * @param {Object} ctx  koa context
    */
-  async render(ctx) {
-    const store = await this.executeAsyncData(ctx)
+  async render(ctx, routes) {
+    const store = await this.executeAsyncData(ctx, routes)
     // 数据注水&脱水，在window上挂载经过asyncData之后的初始化state
     const injectScript = `<script>window.__INITIAL_STATE__=${JSON.stringify(store.getState())}</script>`
     const reactSSR = ReactDOMServer.renderToString(
@@ -59,7 +61,7 @@ class Next {
         <StaticRouter context={{}} location={ctx.path}>
           <Layout>
             <div>
-              {IndexRoute.map(route => (
+              {routes.map(route => (
                 <Route {...route} />
               ))}
             </div>

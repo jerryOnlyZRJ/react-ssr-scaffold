@@ -1,6 +1,6 @@
-import Main from '@/Main'
-import Hello from "@/pages/Hello/Hello";
-import Login from "@/pages/Login/Login";
+import Main from '@/pages/Main'
+import Hello from "@/pages/Main/Hello";
+import Login from "@/pages/Main/Login";
 
 import Loadable from "react-loadable";
 import Loading from "@/components/Loading/Loading";

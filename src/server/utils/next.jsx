@@ -3,6 +3,7 @@ import path from "path";
 // Server render
 import React from "react";
 import ReactDOMServer from "react-dom/server";
+import {Helmet} from "react-helmet";
 // server router
 import { StaticRouter } from "react-router-dom";
 import { renderRoutes, matchRoutes } from "react-router-config";
@@ -64,10 +65,14 @@ class Next {
         </StaticRouter>
       </Provider>
     );
+    // helmet 优化 SEO
+    const helmet = Helmet.renderStatic();
+    const helmetString = helmet.title.toString() + helmet.meta.toString()
     const htmlTemplate = await this.loadHtmlTmp();
     return htmlTemplate
       .replace("<!--react-ssr-outlet-->", reactSSR)
-      .replace("<!-- injectScript -->", injectScript);
+      .replace("<!-- injectScript -->", injectScript)
+      .replace("<!-- injectHelmet -->", helmetString)
   }
 }
 

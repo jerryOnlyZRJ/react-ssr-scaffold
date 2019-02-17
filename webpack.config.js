@@ -9,7 +9,8 @@ let _mergeConfig
 if (argv.env == "server") {
     _mergeConfig = require('./build/webpack.server.js')
 } else {
-    _mergeConfig = require(`./build/webpack.config.${_mode}.js`);
+    const clientBaseConfig = require('./build/webpack.config.base')
+    _mergeConfig = webpackMerge(clientBaseConfig, require(`./build/webpack.config.${_mode}.js`))
 }
 
 let localConfig = {

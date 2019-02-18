@@ -12,7 +12,6 @@ import { renderRoutes, matchRoutes } from "react-router-config";
 import { Provider } from "react-redux";
 import getStore from "@/redux/store";
 
-// get dynamic import components manifest
 const statsFile = path.resolve(
   process.cwd(),
   "dist/client/loadable-stats.json"
@@ -34,6 +33,7 @@ class Next {
       }
     });
   }
+
   /**
    * @description 后端执行路由组件异步操作
    * @param {Object} ctx  Koa context
@@ -51,6 +51,24 @@ class Next {
         (await item.route.loadData({ store, router: item.route }));
     }
     return store;
+  }
+
+  /**
+   * @description 拿到动态import对应的组件JS和CSS
+   * @param {Object} extractor
+   * @returns {Object} js&links
+   */
+  getChunkFiles(extractor) {
+    const scriptTags = extractor.getScriptTags();
+    const injectScripts = scriptTags;
+    // add preload
+    const linkTags = extractor.getLinkTags();
+    const styleTags = extractor.getStyleTags();
+    const injectLinks = linkTags + styleTags;
+    return {
+      injectScripts,
+      injectLinks
+    };
   }
 
   /**
@@ -75,12 +93,7 @@ class Next {
         </Provider>
       </ChunkExtractorManager>
     );
-    const scriptTags = extractor.getScriptTags();
-    const injectScripts = scriptTags
-    // add preload
-    const linkTags = extractor.getLinkTags();
-    const styleTags = extractor.getStyleTags();
-    const injectLinks = linkTags + styleTags
+    const { injectLinks, injectScripts } = this.getChunkFiles(extractor);
     // helmet 优化 SEO
     const helmet = Helmet.renderStatic();
     const helmetString = helmet.title.toString() + helmet.meta.toString();
@@ -90,7 +103,7 @@ class Next {
       .replace("<!-- injectInitialState -->", injectInitialState)
       .replace("<!-- injectHelmet -->", helmetString)
       .replace("<!-- injectLinks -->", injectLinks)
-      .replace("<!-- injectScripts -->", injectScripts)
+      .replace("<!-- injectScripts -->", injectScripts);
   }
 }
 

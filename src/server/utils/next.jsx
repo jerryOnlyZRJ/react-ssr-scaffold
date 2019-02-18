@@ -1,15 +1,22 @@
-import fs from "fs";
+import fs, { link } from "fs";
 import path from "path";
 // Server render
 import React from "react";
 import ReactDOMServer from "react-dom/server";
-import {Helmet} from "react-helmet";
+import { Helmet } from "react-helmet";
+import { ChunkExtractor, ChunkExtractorManager } from "@loadable/server";
 // server router
 import { StaticRouter } from "react-router-dom";
 import { renderRoutes, matchRoutes } from "react-router-config";
 // redux
 import { Provider } from "react-redux";
 import getStore from "@/redux/store";
+
+// get dynamic import components manifest
+const statsFile = path.resolve(
+  process.cwd(),
+  "dist/client/loadable-stats.json"
+);
 
 class Next {
   /**
@@ -54,25 +61,36 @@ class Next {
   async render(ctx, routes) {
     const store = await this.executeAsyncData(ctx, routes);
     // 数据注水&脱水，在window上挂载经过asyncData之后的初始化state
-    const injectScript = `<script>window.__INITIAL_STATE__=${JSON.stringify(
+    const injectInitialState = `<script>window.__INITIAL_STATE__=${JSON.stringify(
       store.getState()
     )}</script>`;
+    const extractor = new ChunkExtractor({ statsFile });
+    // 通过location属性向StaticRouter传入真实路由，匹配路由组件
     const reactSSR = ReactDOMServer.renderToString(
-      // 通过location属性向StaticRouter传入真实路由，匹配路由组件
-      <Provider store={store}>
-        <StaticRouter context={{}} location={ctx.path}>
-          <div>{renderRoutes(routes)}</div>
-        </StaticRouter>
-      </Provider>
+      <ChunkExtractorManager extractor={extractor}>
+        <Provider store={store}>
+          <StaticRouter context={{}} location={ctx.path}>
+            <div>{renderRoutes(routes)}</div>
+          </StaticRouter>
+        </Provider>
+      </ChunkExtractorManager>
     );
+    const scriptTags = extractor.getScriptTags();
+    const injectScripts = scriptTags
+    // add preload
+    const linkTags = extractor.getLinkTags();
+    const styleTags = extractor.getStyleTags();
+    const injectLinks = linkTags + styleTags
     // helmet 优化 SEO
     const helmet = Helmet.renderStatic();
-    const helmetString = helmet.title.toString() + helmet.meta.toString()
+    const helmetString = helmet.title.toString() + helmet.meta.toString();
     const htmlTemplate = await this.loadHtmlTmp();
     return htmlTemplate
       .replace("<!--react-ssr-outlet-->", reactSSR)
-      .replace("<!-- injectScript -->", injectScript)
+      .replace("<!-- injectInitialState -->", injectInitialState)
       .replace("<!-- injectHelmet -->", helmetString)
+      .replace("<!-- injectLinks -->", injectLinks)
+      .replace("<!-- injectScripts -->", injectScripts)
   }
 }
 

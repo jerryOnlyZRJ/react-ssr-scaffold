@@ -2,6 +2,7 @@ const path = require('path')
 const MiniCssExtractPlugin = require('mini-css-extract-plugin')
 const CleanWebpackPlugin = require("clean-webpack-plugin");
 const CopyWebpackPlugin = require('copy-webpack-plugin')
+const LoadablePlugin = require('@loadable/webpack-plugin')
 
 module.exports = {
     entry: path.join(__dirname, "../src/client/index.jsx"),
@@ -21,6 +22,7 @@ module.exports = {
         }]
     },
     plugins: [
+        new LoadablePlugin(),
         new MiniCssExtractPlugin({
             filename: 'styles/[name].[contenthash:5].css',
         }),

@@ -23,9 +23,6 @@ const mapDispatcher2Props = dispatch => ({
   mapDispatcher2Props
 )
 class Hello extends React.Component {
-  static asyncData({ store }) {
-    return store.dispatch(ActionGetUserName.getUserName());
-  }
   componentDidMount() {
     // SSR都应该进行优化
     // 防止经过服务端渲染之后再次拉取数据

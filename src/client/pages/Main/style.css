@@ -2,10 +2,10 @@
     --mainColor: #188eee;
 }
 
-body {
+:global(body){
     background-color: #f6f8fa;
 }
 
-.main-color {
+:global(.main-color) {
     color: var(--mainColor);
 }
